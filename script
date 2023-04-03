@@ -1,0 +1,136 @@
+getgenv().autoTap = false
+getgenv().autoRebirth = false
+
+function doTap()
+task.spawn(function()
+    while autoTap == true do
+        local args = {[1] = "Main"}
+        game:GetService("ReplicatedStorage").Events.Tap:FireServer(unpack(args))
+        task.wait()
+    end
+end)
+end
+
+function doRebirth(rebirthAmount)
+task.spawn(function()
+    while autoRebirth == true do
+        game:GetService("ReplicatedStorage").Events.Rebirth:FireServer(rebirthAmount)
+        task.wait()
+    end
+end)
+end
+function getCurrentPlayerPOS()
+    local plyr = game.Players.LocalPlayer;
+    if plyr.Character then
+        return plyr.Character.HumanoidRootPart.Position
+    end
+        return false;
+end
+
+function teleportTo(placeCFrame)
+    local plyr = game.Players.LocalPlayer;
+    if plyr.Character then
+        plyr.Character.HumanoidRootPart.CFrame = placeCFrame;
+    end
+end
+
+function teleportEgg(shop)
+    if game:GetService("Workspace").Shops:FindFirstChild(shop) then
+        teleportTo(game:GetService("Workspace").Shops[shop].Part.CFrame)
+    end
+end
+
+local OrionLib = loadstring(game:HttpGet(('https://raw.githubusercontent.com/shlexware/Orion/main/source')))()
+
+OrionLib:MakeNotification({
+	Name = "i hate my life",
+	Content = "Almost Ready!",
+	Time = 5
+})
+
+
+local Window = OrionLib:MakeWindow({Name = "i hate life", HidePremium = false, SaveConfig = false, ConfigFolder = "Orion"})
+
+local AutoTab = Window:MakeTab({
+    Name = "AutoFarm",
+    PremiumOnly = false;
+})
+
+local AutoSection = AutoTab:AddSection({
+    Name = 'AutoFarm'
+})
+
+AutoSection:AddToggle({
+    Name = "AutoClick",
+    Default = false,
+    Callback = function(bool)
+    getgenv().autoTap = bool
+    if bool then
+    doTap()
+        end
+    end
+})
+
+AutoSection:AddToggle({
+    Name = "AutoRebirth",
+    Default = false,
+    Callback = function(bool)
+    getgenv().autoRebirth = bool
+    if bool then
+    doRebirth(10)
+        end
+    end
+})
+
+local TeleportTab = Window:MakeTab({
+    Name = "Teleport",
+    PremiumOnly = false;
+})
+
+local TeleportSection = TeleportTab:AddSection({
+    Name = 'Teleport'
+})
+
+local selectedWorld;
+TeleportSection:AddDropdown({
+    Name = "Egg",
+    Default = "Greenlands",
+    Options = {"Starter", "Bee Egg", "Swamp Egg", "Snow Egg", "Desert Egg", "Death Egg"},
+    Callback = function(Value)
+        selectedWorld = Value;
+        print(Value)
+    end
+})
+TeleportSection:AddButton({
+    Name = "Teleport Selected",
+    Callback = function()
+        if selectedWorld then
+            teleportEgg(selectedWorld)
+            print(selectedWorld)
+        end
+    end
+})
+
+local SettingsTab = Window:MakeTab({
+	Name = "Settings",
+	PremiumOnly = false
+})
+
+local SettingsSection = SettingsTab:AddSection({
+	Name = "Settings"
+})
+
+SettingsSection:AddButton({
+	Name = "Destroy UI",
+	Callback = function()
+        OrionLib:MakeNotification({
+            Name = "Destroying GUI...",
+            Content = "bye bye",
+            Time = 5
+        })
+        wait(2)
+        OrionLib:Destroy()
+  	end    
+})
+
+OrionLib:Init() --UI Lib End
