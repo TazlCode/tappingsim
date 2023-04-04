@@ -1,3 +1,4 @@
+if game.GameId == 3539939379 then
 getgenv().autoTap = false
 getgenv().autoRebirth = false
 
@@ -43,13 +44,13 @@ end
 local OrionLib = loadstring(game:HttpGet(('https://raw.githubusercontent.com/shlexware/Orion/main/source')))()
 
 OrionLib:MakeNotification({
-	Name = "i hate my life",
+	Name = "Tapping Simulator",
 	Content = "Almost Ready!",
 	Time = 5
 })
 
 
-local Window = OrionLib:MakeWindow({Name = "i hate life", HidePremium = false, SaveConfig = false, ConfigFolder = "Orion"})
+local Window = OrionLib:MakeWindow({Name = "Tapping Simulator", HidePremium = false, SaveConfig = false, ConfigFolder = "Orion"})
 
 local AutoTab = Window:MakeTab({
     Name = "AutoFarm",
@@ -144,3 +145,14 @@ SettingsSection:AddButton({
 })
 
 OrionLib:Init() --UI Lib End
+
+else
+    local OrionLib = loadstring(game:HttpGet(('https://raw.githubusercontent.com/shlexware/Orion/main/source')))()
+    OrionLib:MakeNotification({
+        Name = "Unsupported Game!",
+        Content = "Destroying GUI...",
+        Time = 5
+    })
+    wait(7)
+    OrionLib:Destroy()
+end
