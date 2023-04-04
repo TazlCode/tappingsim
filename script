@@ -71,14 +71,24 @@ AutoSection:AddToggle({
     end
 })
 
+local selectedAmount
 AutoSection:AddToggle({
     Name = "AutoRebirth",
     Default = false,
     Callback = function(bool)
     getgenv().autoRebirth = bool
     if bool then
-    doRebirth(10)
+    doRebirth(selectedAmount)
         end
+    end
+})
+
+AutoSection:AddDropdown({
+    Name = "Rebirth Amount",
+    Default = 10,
+    Options = {1, 5, 10, 20},
+    Callback = function(Value)
+    selectedAmount = Value;
     end
 })
 
